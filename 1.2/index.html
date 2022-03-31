@@ -4,7 +4,7 @@
  * @Github: https://github.com/fodelf
  * @Date: 2022-03-28 22:58:56
  * @LastEditors: 吴文周
- * @LastEditTime: 2022-03-30 17:00:07
+ * @LastEditTime: 2022-03-30 20:58:50
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -18,23 +18,40 @@
         height: 400px;
         display: flex;
         flex-direction: row;
+        /* background: green; */
         background: url("bg.png") no-repeat center center;
-        background-size: container;
+        background-size: cover;
+        padding: 10px 40px 0px 40px;
       }
       #left {
         flex: 1;
-        /* background: red; */
+        background: red;
       }
       #right {
         width: 200px;
-        /* background: green; */
+        background: green;
+        padding: 10px 10px 0px 10px;
+        margin-left: 10px;
+      }
+      .item {
+        background-color: aqua;
+        margin-bottom: 10px;
+        height: 120px;
+        box-sizing: border-box;
+      }
+      .item:hover {
+        border: 4px solid red !important;
       }
     </style>
   </head>
   <body>
     <div id="container">
       <div id="left"></div>
-      <div id="right"></div>
+      <div id="right">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
     </div>
   </body>
 </html>
