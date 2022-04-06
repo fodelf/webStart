@@ -1,0 +1,93 @@
+<!--
+ * @Description: 描述
+ * @Author: 吴文周
+ * @Github: https://github.com/fodelf
+ * @Date: 2022-04-03 10:03:58
+ * @LastEditors: 吴文周
+ * @LastEditTime: 2022-04-05 14:55:43
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vue3-el-vdom</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- <div class="food">
+        <label>皮蛋瘦肉粥:</label>
+        <span></span>
+        <button>增加</button>
+      </div> -->
+    </div>
+    <script type="module">
+      // // 1.命令式：实现逻辑
+      // document.getElementById("add").addEventListener("click", () => {
+      //   const countDom = document.getElementById("count");
+      //   countDom.innerHTML = 1;
+      // });
+
+      // 命令式可维护性，可扩展很低，不够抽象，将来项目复杂，到处都是添加dom,删除dom
+      // dom 操作是很耗时性能的，我们需要知道最小变化更新一小部分而不是全部更新
+      // js对象创建很快，运算速度也很快
+      // 所以我们可以使用js来表达dom
+
+      // 例如  <label id src>皮蛋瘦肉粥:</label>
+      // 变成对象的形式就是
+      const label = {
+        tag: "label",
+        children: "皮蛋瘦肉sss粥:",
+        props: {
+          onClick: () => {
+            alert("hello word new");
+          },
+          id: "srz",
+        },
+      };
+
+      // dom本身的嵌套性就决定了 虚拟dom对象的嵌套性
+      // children的节点可以追加多个虚拟dom
+      // const labels = {
+      //   tag: "label",
+      //   children: [
+      //     {
+      //       tag: "label-child1",
+      //       children: [],
+      //     },
+      //     {
+      //       tag: "label-child2",
+      //       children: [],
+      //     },
+      //   ],
+      // };
+      // 我们需要一个渲染函数将dom渲染出来
+      import { render, patch } from "./js/vdom.js";
+      // render(label, document.getElementById("app"));
+
+      // //不仅仅是渲染，我们更多的是数据变化后的更新场景
+      const oldLabel = {
+        tag: "label",
+        children: "旧的皮蛋瘦肉粥:0",
+        props: {
+          onClick: () => {
+            alert("hello word");
+          },
+        },
+      };
+      const newLabel = {
+        tag: "label",
+        children: "新的皮蛋瘦肉粥:1",
+        props: {
+          onClick: () => {
+            alert("hello word");
+          },
+        },
+      };
+      render(oldLabel, document.getElementById("app"));
+      // // 我们需要一个比较算法将相差的数据比较出来并且重新更新
+      patch(oldLabel, newLabel);
+    </script>
+  </body>
+</html>

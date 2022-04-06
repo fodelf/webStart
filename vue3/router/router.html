@@ -1,0 +1,60 @@
+<!--
+ * @Description: 描述
+ * @Author: 吴文周
+ * @Github: https://github.com/fodelf
+ * @Date: 2022-04-04 19:05:05
+ * @LastEditors: 吴文周
+ * @LastEditTime: 2022-04-05 21:56:12
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>router</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module">
+      import { createApp } from "./js/utils/index.js";
+      import { h } from "./js/utils/vdom.js";
+      //列表页面
+      import { List } from "./js/list.js";
+      //详情页面
+      import { Detail } from "./js/detail.js";
+      //404页面
+      import { NotFound } from "./js/notfound.js";
+      //全局状态
+      import { state } from "./js/store.js";
+      //监听路由变化
+      window.addEventListener("hashchange", () => {
+        state.url = location.hash.substring(1);
+      });
+      // 路由映射表
+      const router = {
+        list: List,
+        detail: Detail,
+      };
+      // 应用组件
+      const App = {
+        render: () => {
+          return h("div", null, [
+            h("a", { href: "#list" }, "外卖列表"),
+            h("span", null, "  |  "),
+            h("a", { href: "#detail" }, "外卖详情"),
+            // 动态渲染
+            // 默认是列表页如果没有就算404
+            state.url == ""
+              ? List
+              : router[state.url]
+              ? router[state.url]
+              : NotFound,
+          ]);
+        },
+      };
+      // 创建应用
+      createApp(App, document.getElementById("app"));
+    </script>
+  </body>
+</html>

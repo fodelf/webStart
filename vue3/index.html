@@ -1,0 +1,31 @@
+<!--
+ * @Description: 基础实现
+ * @Author: 吴文周
+ * @Github: https://github.com/fodelf
+ * @Date: 2022-04-03 10:03:58
+ * @LastEditors: 吴文周
+ * @LastEditTime: 2022-04-05 10:18:37
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vue3-el-org</title>
+  </head>
+  <body>
+    <div>
+      <label>皮蛋瘦肉粥:</label>
+      <span id="count"></span>
+      <button id="add">增加</button>
+    </div>
+    <script type="module">
+      // 1.命令式：实现逻辑
+      document.getElementById("add").addEventListener("click", () => {
+        const countDom = document.getElementById("count");
+        countDom.innerHTML = 1;
+      });
+    </script>
+  </body>
+</html>

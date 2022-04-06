@@ -1,0 +1,90 @@
+<!--
+ * @Description: 虚拟dom和响应式整合
+ * @Author: 吴文周
+ * @Github: https://github.com/fodelf
+ * @Date: 2022-04-04 10:56:30
+ * @LastEditors: 吴文周
+ * @LastEditTime: 2022-04-05 20:51:27
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>reactive&vdom</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module">
+      // 定义虚拟dom
+      import { render, h, patch } from "./js/vdom.js";
+      import { effect, reactive } from "./js/reactive.js";
+      // 全局状态
+      let store = reactive({
+        count: 0,
+      });
+      // food 组件
+      const Food = {
+        isComponent: true,
+        name: "Food",
+        render() {
+          return h("div", null, [
+            h("label", null, "皮蛋瘦肉粥:"),
+            h("span", null, "20元每一份"),
+            h("div", null, store.count),
+            h(
+              "button",
+              {
+                onClick: () => {
+                  store.count = 1;
+                },
+              },
+              "增加"
+            ),
+          ]);
+        },
+      };
+      // 计算金额 组件
+      const CountMoney = {
+        isComponent: true,
+        name: "CountMoney",
+        render() {
+          return h("div", null, [
+            h("label", null, "总计:"),
+            // 计价
+            h("span", null, store.count * 20),
+          ]);
+        },
+      };
+      // 应用对象
+      const App = {
+        render() {
+          return h("div", null, [Food, CountMoney]);
+        },
+      };
+      // 创建应用
+      function createApp(App, container) {
+        // 判断是否渲染过
+        let isMounted = false;
+        // 旧的虚拟dom缓存
+        let oldVdom = null;
+        // 新的虚拟dom对象
+        let newVdom = null;
+        effect(() => {
+          if (!isMounted) {
+            newVdom = App.render();
+            render(newVdom, container);
+            isMounted = true;
+          } else {
+            newVdom = App.render();
+            patch(oldVdom, newVdom);
+          }
+          oldVdom = newVdom;
+        });
+      }
+      // 调用创建
+      createApp(App, document.getElementById("app"));
+    </script>
+  </body>
+</html>

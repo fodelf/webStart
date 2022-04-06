@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+}
+html,
+body,
+#app {
+  height: 100%;
+}
+.bg-green {
+  background: green;
+}
+.bg-red {
+  background: red;
+}
+.bg-gray {
+  background: gray;
+}

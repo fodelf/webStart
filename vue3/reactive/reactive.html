@@ -1,0 +1,65 @@
+<!--
+ * @Description: 描述
+ * @Author: 吴文周
+ * @Github: https://github.com/fodelf
+ * @Date: 2022-04-03 10:03:58
+ * @LastEditors: 吴文周
+ * @LastEditTime: 2022-04-05 12:16:11
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vue3-el-reactive</title>
+  </head>
+  <body>
+    <div>
+      <label>皮蛋瘦肉粥:</label>
+      <span id="count"></span>
+      <button id="add">增加</button>
+    </div>
+    <script type="module">
+      //1.逻辑抽象，响应式,代码的封装都是为了降低使用者的难度
+      // A:伪代码
+      // var count = 0;
+      // function render(){
+      //   const countDom = document.getElementById("count");
+      //   countDom.innerHTML = count;
+      // }
+      // count = count + 1;
+      // =>
+      // render()
+      // B:数据劫持
+      // 我们的期望其实是自动化执行，不用人工干预,当count变化时，自动渲染
+      // render => 就是一个副作用 effect
+      // window.a  =1
+      // 期望执行的逻辑
+      // a. count = 0 ；effect();
+      // b. count = 1;
+      // c. effect();
+      // C:具体实现，我们希望读取count值的时候，就缓存当前的执行函数，当值变化时在执行
+      //  使用Proxy
+      import { reactive, effect } from "./js/reactive.js";
+      // 原始数据
+      const target = {
+        count: 0,
+      };
+      // 响应式数据
+      let reactiveTarget = reactive(target);
+      // 需要执行的副作用函数,初始化就是要执行默认值
+      function effectFu() {
+        const countDom = document.getElementById("count");
+        debugger;
+        countDom.innerHTML = reactiveTarget.count;
+      }
+      // 副作用收集
+      effect(effectFu);
+      // 点击事件
+      document.getElementById("add").addEventListener("click", () => {
+        reactiveTarget.count = 1;
+      });
+    </script>
+  </body>
+</html>
