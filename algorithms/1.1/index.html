@@ -4,7 +4,7 @@
  * @Github: https://github.com/fodelf
  * @Date: 2022-04-07 21:31:46
  * @LastEditors: 吴文周
- * @LastEditTime: 2022-04-08 09:04:24
+ * @LastEditTime: 2022-04-09 20:58:42
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -17,10 +17,86 @@
   <body>
     <!-- 2的32次方是4294967296 -->
     <!-- 2的3次方是8 -->
+    <!-- 2的8次方是256 -->
+    <!-- 2的16次方是65536 -->
     <script>
-      let array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-      let linkList = {};
-      // 快速排序
+      let array = [];
+      const resCount = 8;
+      // const target = parseInt(Math.random() * resCount);
+      const target = 7;
+      for (let i = 1; i <= resCount; i++) {
+        array.push(i);
+      }
+      console.log("数组长度", resCount, "目标值", target);
+      let count = 0;
+      // // 二分法
+      function half(targetList, target) {
+        const length = targetList.length;
+        if (targetList[0] > target || targetList[length - 1] < target) {
+          return -1;
+        }
+        const index =
+          Math.floor(length / 2 - 1) <= 0 ? 0 : Math.floor(length / 2 - 1);
+        const compareValue = targetList[index];
+        console.log("中间值", compareValue);
+        count++;
+        console.log("执行次数", count);
+        if (compareValue === target) {
+          return compareValue;
+        } else if (compareValue > target) {
+          return half(targetList.slice(0, index + 1), target);
+        } else {
+          return half(targetList.slice(index + 1), target);
+        }
+      }
+      half(array, target);
+
+      // 二分法
+      function half2(targetList, target) {
+        let lowIndex = 0;
+        let highIndex = array.length - 1;
+        while (lowIndex <= highIndex) {
+          let midIndex = Math.floor((lowIndex + highIndex) / 2);
+          const compareValue = targetList[midIndex];
+          console.log("中间值", compareValue);
+          count++;
+          console.log("执行次数", count);
+          if (target === compareValue) {
+            return compareValue;
+          } else if (target > compareValue) {
+            lowIndex = midIndex + 1;
+          } else {
+            highIndex = midIndex - 1;
+          }
+        }
+        return undefined;
+      }
+      half2(array, target);
+
+      // // 二分法
+      function half3(targetList, target) {
+        const length = targetList.length;
+        if (targetList[0] > target || targetList[length - 1] < target) {
+          return -1;
+        }
+        const index =
+          Math.floor(length / 2 - 1) <= 0 ? 0 : Math.floor(length / 2 - 1);
+        const compareValue = targetList[index];
+        console.log("中间值", compareValue);
+        count++;
+        console.log("执行次数", count);
+        if (targetList[0] == target || targetList[length - 1] == target) {
+          return compareValue;
+        }
+        if (compareValue === target) {
+          return compareValue;
+        } else if (compareValue > target) {
+          return half(targetList.slice(0, index + 1), target);
+        } else {
+          return half(targetList.slice(index + 1), target);
+        }
+      }
+      half(array, target);
     </script>
   </body>
 </html>
